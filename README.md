@@ -1,3 +1,10 @@
-# Samarkand Media
+# Samarkand Medina
 
-The shop backend built in React
+Admin frontend for Samarkand
+
+## Running in dev
+
+```
+yarn install
+yarn start
+```
