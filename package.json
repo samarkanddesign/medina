@@ -19,7 +19,8 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "types": "CODEGEN_ENUMS_AS_TYPES=true CODEGEN_AVOID_OPTIONALS=true gql-gen --schema http://localhost:4000/graphql  --template graphql-codegen-typescript-template --out ./src/types/gql.ts"
   },
   "devDependencies": {
     "@types/jest": "^23.1.1",
@@ -28,7 +29,9 @@
     "@types/react": "^16.4.1",
     "@types/react-dom": "^16.0.6",
     "@types/react-router-dom": "^4.2.7",
-    "typescript": "^2.9.2"
+    "typescript": "^2.9.2",
+    "graphql-code-generator": "^0.9.3",
+    "graphql-codegen-typescript-template": "^0.9.3"
   },
   "prettier": {
     "tabWidth": 2,
