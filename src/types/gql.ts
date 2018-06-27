@@ -40,9 +40,11 @@ export interface Product {
   sku: string;
   slug: string;
   stockQty: number | null;
+  thumbnail: ProductImage | null;
 }
 
 export interface ProductImage {
+  id: string;
   url: string;
 }
 
@@ -130,6 +132,7 @@ export namespace ProductResolvers {
     sku?: SkuResolver;
     slug?: SlugResolver;
     stockQty?: StockQtyResolver;
+    thumbnail?: ThumbnailResolver;
   }
 
   export type CategoriesResolver = Resolver<Category[]>;
@@ -145,13 +148,16 @@ export namespace ProductResolvers {
   export type SkuResolver = Resolver<string>;
   export type SlugResolver = Resolver<string>;
   export type StockQtyResolver = Resolver<number | null>;
+  export type ThumbnailResolver = Resolver<ProductImage | null>;
 }
 
 export namespace ProductImageResolvers {
   export interface Resolvers {
+    id?: IdResolver;
     url?: UrlResolver;
   }
 
+  export type IdResolver = Resolver<string>;
   export type UrlResolver = Resolver<string>;
 }
 

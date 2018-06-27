@@ -6,6 +6,11 @@ import axios from 'axios';
 
 import { Product } from 'src/types/gql';
 import ProductForm from 'src/components/ProductForm';
+import Card from 'src/components/Card';
+import Section from 'src/components/Section';
+import { Vspace } from 'src/components/Vspace';
+import { FileInput } from '../components/FileInput';
+import { Option } from 'catling';
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -30,7 +35,7 @@ class SingleProductQuery extends Query<{ product?: Product }, { id: string }> {}
 export default function Product({ match }: Props) {
   const id = match.params.id;
   return (
-    <section>
+    <Section>
       <h1>Products</h1>
 
       <SingleProductQuery query={SingleProduct} variables={{ id }}>
@@ -44,23 +49,33 @@ export default function Product({ match }: Props) {
           }
           if (data && data.product) {
             return (
-              <>
-                {(data.product as any).images.map((i: any) => (
-                  <img src={i.url} style={{ height: '50px', width: 'auto' }} />
-                ))}
-                <ProductForm product={data.product} />
-                <ProductImageForm
-                  productId={id}
-                  refetch={() => refetch({ id })}
-                />
-              </>
+              <Vspace>
+                <Card>
+                  <ProductForm product={data.product} />
+                </Card>
+                <Card>
+                  <ProductImageForm
+                    productId={id}
+                    refetch={() => refetch({ id })}
+                  />
+                </Card>
+                <div>
+                  {data.product.images.map(i => (
+                    <img
+                      key={i.id}
+                      src={i.url}
+                      style={{ height: '50px', width: 'auto' }}
+                    />
+                  ))}
+                </div>
+              </Vspace>
             );
           }
 
           return '😭';
         }}
       </SingleProductQuery>
-    </section>
+    </Section>
   );
 }
 
@@ -69,31 +84,51 @@ interface ProductImageFormProps {
   refetch: () => void;
 }
 
-class ProductImageForm extends React.Component<ProductImageFormProps, {}> {
-  handleUpload = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (this.uploadInput !== null && this.uploadInput.files) {
+class ProductImageForm extends React.Component<
+  ProductImageFormProps,
+  { inputKey: number; uploading: boolean }
+> {
+  state = {
+    inputKey: 1,
+    uploading: false,
+  };
+
+  handleUpload = (file: Option<File>) => {
+    file.forEach(f => {
+      this.setState({ uploading: true });
       const data = new FormData();
       data.append('product_id', this.props.productId);
-      data.append('image', this.uploadInput.files[0]);
+      data.append('image', f);
 
       axios
         .post('http://localhost:4000/api/product_images', data)
         .then(r => {
           this.props.refetch();
-
-          console.log();
+          this.setState(state => ({
+            inputKey: state.inputKey + 1,
+            uploading: false,
+          }));
+          console.log(r);
         })
-        .catch(console.log);
-    }
+        .catch(e => {
+          this.setState(state => ({
+            inputKey: state.inputKey + 1,
+            uploading: false,
+          }));
+          console.log(e);
+        });
+    });
   };
-
-  uploadInput: HTMLInputElement | null = null;
 
   render() {
     return (
-      <form onSubmit={this.handleUpload}>
-        <input type="file" ref={el => (this.uploadInput = el)} />
+      <form>
+        {/* <input type="file" ref={el => (this.uploadInput = el)} /> */}
+        <FileInput
+          onChange={this.handleUpload}
+          inputKey={this.state.inputKey}
+          uploading={this.state.uploading}
+        />
         <button type="submit">Upload</button>
       </form>
     );

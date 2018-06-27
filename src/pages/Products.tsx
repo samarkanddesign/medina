@@ -20,6 +20,9 @@ const allProducts = gql`
         name
         price
         slug
+        thumbnail {
+          url
+        }
       }
       pagination {
         totalPages
@@ -31,7 +34,6 @@ const allProducts = gql`
 export default function Products({  }: Props) {
   return (
     <section>
-      <h1>Products</h1>
       <AllProductsQuery query={allProducts}>
         {({ data, error, loading }) => {
           if (loading) {
@@ -46,7 +48,15 @@ export default function Products({  }: Props) {
             .flatMap(d => Option(d.products))
             .map(p =>
               p.items.map(product => (
-                <li>
+                <li key={product.id}>
+                  {Option(product.thumbnail)
+                    .map(thumb => (
+                      <img
+                        style={{ width: 150, height: 150 }}
+                        src={thumb.url}
+                      />
+                    ))
+                    .get()}
                   <Link to={`/products/${product.id}`}>{product.name}</Link>
                 </li>
               )),

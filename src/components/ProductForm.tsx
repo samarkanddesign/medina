@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { Product } from '../types/gql';
+import Input from 'src/components/Input';
+import Vspace from 'src/components/Vspace';
+import TextArea from 'src/components/TextArea';
 
 interface Props {
   product: Product;
@@ -8,14 +11,19 @@ interface Props {
 export default function ProductForm({ product }: Props) {
   return (
     <form>
-      <label>
-        Product Title
-        <input type="text" value={product.name} />
-      </label>
+      <Vspace>
+        <Input
+          label="Product Title"
+          value={product.name}
+          onChange={() => null}
+        />
 
-      <label>
-        <textarea>{product.description}</textarea>
-      </label>
+        <TextArea
+          label="Description"
+          value={product.description}
+          onChange={() => null}
+        />
+      </Vspace>
     </form>
   );
 }
