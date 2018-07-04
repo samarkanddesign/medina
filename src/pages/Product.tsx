@@ -17,6 +17,7 @@ interface Props extends RouteComponentProps<{ id: string }> {}
 const SingleProduct = gql`
   query SingleProduct($id: String) {
     product(id: $id) {
+      id
       name
       slug
       description
