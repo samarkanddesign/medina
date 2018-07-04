@@ -15,7 +15,7 @@ export interface RootQueryType {
   categories: Category[] /** Get all categories */;
   category: Category | null /** Get a single category by id or slug */;
   product: Product | null /** Get a single product by id or slug */;
-  products: PagedProducts | null /** Get a paginated list of products */;
+  productList: PagedProducts | null /** Get a paginated list of products */;
 }
 
 export interface Category {
@@ -49,8 +49,8 @@ export interface ProductImage {
 }
 
 export interface PagedProducts {
-  items: Product[];
   pagination: Pagination;
+  products: Product[];
 }
 /** Pagination information for a paged query */
 export interface Pagination {
@@ -62,6 +62,7 @@ export interface Pagination {
 
 export interface RootMutationType {
   createProduct: CreateProductResponse | null;
+  updateProduct: UpdateProductResponse | null /** Update an existing product */;
 }
 
 export interface CreateProductResponse {
@@ -74,12 +75,17 @@ export interface Error {
   reason: string;
 }
 
+export interface UpdateProductResponse {
+  errors: (Error | null)[] | null;
+  product: Product | null;
+}
+
 export namespace RootQueryTypeResolvers {
   export interface Resolvers {
     categories?: CategoriesResolver /** Get all categories */;
     category?: CategoryResolver /** Get a single category by id or slug */;
     product?: ProductResolver /** Get a single product by id or slug */;
-    products?: ProductsResolver /** Get a paginated list of products */;
+    productList?: ProductListResolver /** Get a paginated list of products */;
   }
 
   export type CategoriesResolver = Resolver<Category[]>;
@@ -95,8 +101,11 @@ export namespace RootQueryTypeResolvers {
     slug: string | null;
   }
 
-  export type ProductsResolver = Resolver<PagedProducts | null, ProductsArgs>;
-  export interface ProductsArgs {
+  export type ProductListResolver = Resolver<
+    PagedProducts | null,
+    ProductListArgs
+  >;
+  export interface ProductListArgs {
     page: number | null;
   }
 }
@@ -163,12 +172,12 @@ export namespace ProductImageResolvers {
 
 export namespace PagedProductsResolvers {
   export interface Resolvers {
-    items?: ItemsResolver;
     pagination?: PaginationResolver;
+    products?: ProductsResolver;
   }
 
-  export type ItemsResolver = Resolver<Product[]>;
   export type PaginationResolver = Resolver<Pagination>;
+  export type ProductsResolver = Resolver<Product[]>;
 }
 /** Pagination information for a paged query */
 export namespace PaginationResolvers {
@@ -188,6 +197,7 @@ export namespace PaginationResolvers {
 export namespace RootMutationTypeResolvers {
   export interface Resolvers {
     createProduct?: CreateProductResolver;
+    updateProduct?: UpdateProductResolver /** Update an existing product */;
   }
 
   export type CreateProductResolver = Resolver<
@@ -203,6 +213,23 @@ export namespace RootMutationTypeResolvers {
     salePrice: number | null;
     sku: string;
     slug: string;
+    stockQty: number | null;
+  }
+
+  export type UpdateProductResolver = Resolver<
+    UpdateProductResponse | null,
+    UpdateProductArgs
+  >;
+  export interface UpdateProductArgs {
+    description: string | null;
+    featured: boolean | null;
+    id: string;
+    listed: boolean | null;
+    name: string | null;
+    price: number | null;
+    salePrice: number | null;
+    sku: string | null;
+    slug: string | null;
     stockQty: number | null;
   }
 }
@@ -226,6 +253,16 @@ export namespace ErrorResolvers {
   export type KeyResolver = Resolver<string>;
   export type ReasonResolver = Resolver<string>;
 }
+
+export namespace UpdateProductResponseResolvers {
+  export interface Resolvers {
+    errors?: ErrorsResolver;
+    product?: ProductResolver;
+  }
+
+  export type ErrorsResolver = Resolver<(Error | null)[] | null>;
+  export type ProductResolver = Resolver<Product | null>;
+}
 export interface CategoryRootQueryTypeArgs {
   id: string | null;
   slug: string | null;
@@ -234,7 +271,7 @@ export interface ProductRootQueryTypeArgs {
   id: string | null;
   slug: string | null;
 }
-export interface ProductsRootQueryTypeArgs {
+export interface ProductListRootQueryTypeArgs {
   page: number | null;
 }
 export interface CreateProductRootMutationTypeArgs {
@@ -246,5 +283,17 @@ export interface CreateProductRootMutationTypeArgs {
   salePrice: number | null;
   sku: string;
   slug: string;
+  stockQty: number | null;
+}
+export interface UpdateProductRootMutationTypeArgs {
+  description: string | null;
+  featured: boolean | null;
+  id: string;
+  listed: boolean | null;
+  name: string | null;
+  price: number | null;
+  salePrice: number | null;
+  sku: string | null;
+  slug: string | null;
   stockQty: number | null;
 }

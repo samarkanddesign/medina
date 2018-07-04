@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ProductsRootQueryTypeArgs, PagedProducts } from 'src/types/gql';
+import { ProductListRootQueryTypeArgs, PagedProducts } from 'src/types/gql';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Option } from 'catling';
@@ -8,14 +8,14 @@ import { Link } from 'react-router-dom';
 interface Props {}
 
 class AllProductsQuery extends Query<
-  { products?: PagedProducts },
-  ProductsRootQueryTypeArgs
+  { productList?: PagedProducts },
+  ProductListRootQueryTypeArgs
 > {}
 
 const allProducts = gql`
-  query AllProducts($page: Int) {
-    products(page: $page) {
-      items {
+  query ProductList($page: Int) {
+    productList(page: $page) {
+      products {
         id
         name
         price
@@ -31,7 +31,7 @@ const allProducts = gql`
   }
 `;
 
-export default function Products({  }: Props) {
+export default function Products({ }: Props) {
   return (
     <section>
       <AllProductsQuery query={allProducts}>
@@ -45,9 +45,9 @@ export default function Products({  }: Props) {
           }
 
           return Option(data)
-            .flatMap(d => Option(d.products))
+            .flatMap(d => Option(d.productList))
             .map(p =>
-              p.items.map(product => (
+              p.products.map(product => (
                 <li key={product.id}>
                   {Option(product.thumbnail)
                     .map(thumb => (
