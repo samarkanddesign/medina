@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { prop, compose } from 'ramda';
-import styled from 'react-emotion';
+import styled, { css } from 'react-emotion';
 
-export const StyledInput = styled('input')`
+export const baseInputStyle = css`
   display: block;
+  width: 100%;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
@@ -17,27 +17,21 @@ export const StyledInput = styled('input')`
   }
 `;
 
-interface Props {
+export const StyledInput = styled('input')`
+  ${baseInputStyle};
+`;
+
+interface Props extends React.HTMLProps<HTMLInputElement> {
   label: string;
-  value: string;
-  type?: 'text';
-  onChange: (value: string) => void;
 }
 
-export const Input = ({ value, label, type = 'text', onChange }: Props) => {
+export const Input = ({ label, ref, ...inputProps }: Props) => {
   return (
     <div>
       <label>
         {label}
-        <StyledInput
-          type={type}
-          value={value}
-          onChange={compose(
-            onChange,
-            prop('value'),
-            prop('target'),
-          )}
-        />
+
+        <StyledInput {...inputProps} />
       </label>
     </div>
   );

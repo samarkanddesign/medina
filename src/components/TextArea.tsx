@@ -1,29 +1,32 @@
-import { StyledInput } from './Input';
+import { baseInputStyle } from './Input';
 
 import * as React from 'react';
-import { prop, compose } from 'ramda';
+import styled from 'react-emotion';
 
-const StyledTextArea = StyledInput.withComponent('textarea');
+const StyledTextArea = styled('textarea')`
+  ${baseInputStyle};
+  font-family: inherit;
+  max-width: 100%;
+`;
 
 interface Props {
   label: string;
+  name: string;
   value: string;
-  type?: 'text';
-  onChange: (value: string) => void;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
 }
 
-export const TextArea = ({ label, value, onChange }: Props) => {
+export const TextArea = ({ label, name, value, onChange, onBlur }: Props) => {
   return (
     <div>
       <label>
         {label}
         <StyledTextArea
           value={value}
-          onChange={compose(
-            onChange,
-            prop('value'),
-            prop('target'),
-          )}
+          name={name}
+          onChange={onChange}
+          onBlur={onBlur}
         />
       </label>
     </div>

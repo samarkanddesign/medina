@@ -25,6 +25,7 @@ const SingleProduct = gql`
       salePrice
       stockQty
       images {
+        id
         url
       }
     }

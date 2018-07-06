@@ -1,8 +1,10 @@
 import * as React from 'react';
+import { Option } from 'catling';
 import { Product } from '../types/gql';
 import Input from 'src/components/Input';
 import Vspace from 'src/components/Vspace';
 import TextArea from 'src/components/TextArea';
+import { Formik } from 'formik';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -25,37 +27,106 @@ const updateProduct = gql`
   }
 `;
 
+interface ProductForm {
+  id: string;
+  name: string;
+  description: string;
+  price: string;
+  salePrice: string;
+}
+
 export default function ProductForm({ product }: Props) {
-  let name: HTMLInputElement | null;
   console.log(product);
   return (
     <Vspace>
       <Mutation mutation={updateProduct}>
         {updateProduct => (
-          <form
-            onSubmit={e => {
-              e.preventDefault();
-              updateProduct({
-                variables: { id: product.id, name: name && name.value },
-              });
+          <Formik
+            initialValues={desanitizeProductForm(product)}
+            onSubmit={(values, { setSubmitting }) => {
+              const stopSubmitting = () => setSubmitting(false);
+              updateProduct({ variables: sanitizeProduct(values) })
+                .then(stopSubmitting)
+                .catch(stopSubmitting);
             }}
           >
-            <input type="text" ref={i => (name = i)} />
-            <Input
-              label="Product Title"
-              value={product.name}
-              onChange={() => null}
-            />
+            {props => (
+              <form
+                onSubmit={
+                  props.isSubmitting
+                    ? e => e.preventDefault()
+                    : props.handleSubmit
+                }
+              >
+                <Vspace>
+                  <Input
+                    label="Product Title"
+                    name="name"
+                    value={props.values.name}
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                  />
 
-            <TextArea
-              label="Description"
-              value={product.description}
-              onChange={() => null}
-            />
-            <button type="submit">Submit</button>
-          </form>
+                  <TextArea
+                    label="Description"
+                    name="description"
+                    value={props.values.description}
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                  />
+
+                  <Input
+                    label="Price"
+                    name="price"
+                    type="number"
+                    step="any"
+                    value={props.values.price}
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                  />
+                  <button type="submit" disabled={props.isSubmitting}>
+                    Submit
+                  </button>
+                </Vspace>
+              </form>
+            )}
+          </Formik>
         )}
       </Mutation>
     </Vspace>
   );
+}
+
+function desanitizeProductForm({
+  id,
+  name,
+  description,
+  price,
+  salePrice,
+}: Product): ProductForm {
+  return {
+    id,
+    name,
+    description,
+    price: (price / 100).toFixed(2),
+    salePrice: Option(salePrice)
+      .map(p => p / 100)
+      .map(p => p.toFixed(2))
+      .getOrElse(''),
+  };
+}
+
+function sanitizeProduct({
+  price,
+  salePrice,
+  ...values
+}: ProductForm): Partial<Product> {
+  return {
+    ...values,
+    price: parseFloat(price) * 100,
+    salePrice: Option(salePrice)
+      .filter(p => p.length > 0)
+      .map(p => parseFloat(p) * 100)
+      .getOrElse(undefined),
+  };
 }
