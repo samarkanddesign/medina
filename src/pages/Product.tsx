@@ -11,6 +11,7 @@ import Section from 'src/components/Section';
 import { Vspace } from 'src/components/Vspace';
 import { FileInput } from '../components/FileInput';
 import { Option } from 'catling';
+import { Link } from 'react-router-dom';
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -39,6 +40,8 @@ export default function Product({ match }: Props) {
   return (
     <Section>
       <h1>Products</h1>
+
+      <Link to="/products">👈 All Products</Link>
 
       <SingleProductQuery query={SingleProduct} variables={{ id }}>
         {({ data, loading, error, refetch }) => {

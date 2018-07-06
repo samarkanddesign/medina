@@ -13,11 +13,26 @@ interface Props {
 }
 
 const updateProduct = gql`
-  mutation UpdateProduct($id: ID, $name: String, $description: String) {
-    updateProduct(id: $id, name: $name, description: $description) {
+  mutation UpdateProduct(
+    $id: ID
+    $name: String
+    $description: String
+    $price: Int
+    $salePrice: Int
+  ) {
+    updateProduct(
+      id: $id
+      name: $name
+      description: $description
+      price: $price
+      salePrice: $salePrice
+    ) {
       product {
-        name
         id
+        name
+        description
+        price
+        salePrice
       }
       errors {
         key

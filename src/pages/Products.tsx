@@ -4,6 +4,8 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Option } from 'catling';
 import { Link } from 'react-router-dom';
+import styled from 'react-emotion';
+import { prop } from 'ramda';
 
 interface Props {}
 
@@ -31,7 +33,14 @@ const allProducts = gql`
   }
 `;
 
-export default function Products({ }: Props) {
+const ProductRow = styled('li')`
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  padding: 0.2rem 0;
+`;
+
+export default function Products({  }: Props) {
   return (
     <section>
       <AllProductsQuery query={allProducts}>
@@ -48,17 +57,16 @@ export default function Products({ }: Props) {
             .flatMap(d => Option(d.productList))
             .map(p =>
               p.products.map(product => (
-                <li key={product.id}>
-                  {Option(product.thumbnail)
-                    .map(thumb => (
-                      <img
-                        style={{ width: 150, height: 150 }}
-                        src={thumb.url}
-                      />
-                    ))
-                    .get()}
+                <ProductRow key={product.id}>
+                  <img
+                    style={{ width: 75, height: 75 }}
+                    src={Option(product.thumbnail)
+                      .map(prop('url'))
+                      .getOrElse('https://via.placeholder.com/75x75')}
+                  />
+
                   <Link to={`/products/${product.id}`}>{product.name}</Link>
-                </li>
+                </ProductRow>
               )),
             )
             .map(list => <ul>{list}</ul>)
