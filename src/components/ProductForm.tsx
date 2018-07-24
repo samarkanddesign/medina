@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Option } from 'catling';
 import { Product } from '../types/gql';
-import Input from 'src/components/Input';
-import Vspace from 'src/components/Vspace';
-import TextArea from 'src/components/TextArea';
+import Input from './Input';
+import Vspace from './Vspace';
+import TextArea from './TextArea';
 import { Formik } from 'formik';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';

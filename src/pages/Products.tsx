@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ProductListRootQueryTypeArgs, PagedProducts } from 'src/types/gql';
+import { ProductListRootQueryTypeArgs, PagedProducts } from '../types/gql';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Option } from 'catling';

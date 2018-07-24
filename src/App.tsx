@@ -3,8 +3,9 @@ import { Switch, Route } from 'react-router-dom';
 import './App.css';
 
 import logo from './samarkand-logo-250.svg';
-import Products from 'src/pages/Products';
-import Product from 'src/pages/Product';
+import Products from './pages/Products';
+import Product from './pages/Product';
+import { LoginPage } from './pages/LoginPage';
 
 class App extends React.Component {
   public render() {
@@ -15,6 +16,7 @@ class App extends React.Component {
           <h1 className="App-title">Welcome to Samarkand Medina</h1>
         </header>
         <Switch>
+          <Route exact path="/login" component={LoginPage} />
           <Route exact path="/products/:id" component={Product} />
           <Route exact path="/products" component={Products} />
         </Switch>

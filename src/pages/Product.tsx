@@ -4,11 +4,11 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import axios from 'axios';
 
-import { Product } from 'src/types/gql';
-import ProductForm from 'src/components/ProductForm';
-import Card from 'src/components/Card';
-import Section from 'src/components/Section';
-import { Vspace } from 'src/components/Vspace';
+import { Product } from '../types/gql';
+import ProductForm from '../components/ProductForm';
+import Card from '../components/Card';
+import Section from '../components/Section';
+import { Vspace } from '../components/Vspace';
 import { FileInput } from '../components/FileInput';
 import { Option } from 'catling';
 import { Link } from 'react-router-dom';
