@@ -16,6 +16,6 @@ export const LOGIN = gql`
 `;
 
 export class LoginMutation extends Mutation<
-  Session,
+  { login: Session },
   LoginRootMutationTypeArgs
 > {}

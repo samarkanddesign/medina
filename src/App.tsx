@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import './App.css';
 
 import logo from './samarkand-logo-250.svg';
 import Products from './pages/Products';
 import Product from './pages/Product';
-import { LoginPage } from './pages/LoginPage';
+import LoginPage from './pages/LoginPage';
 
 class App extends React.Component {
   public render() {
@@ -14,6 +14,12 @@ class App extends React.Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to Samarkand Medina</h1>
+
+          <ul>
+            <li>
+              <Link to="products">Products</Link>
+            </li>
+          </ul>
         </header>
         <Switch>
           <Route exact path="/login" component={LoginPage} />

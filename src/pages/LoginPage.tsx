@@ -2,15 +2,23 @@ import * as React from 'react';
 import { Formik } from 'formik';
 import { LoginMutation, LOGIN } from '../graphql/mutations';
 import Input from '../components/Input';
+import { Dispatch } from '../../node_modules/redux';
+import { Action } from '../store/reducers';
+import { SetToken } from '../store/reducers/auth';
+import { connect } from 'react-redux';
 
-interface Props {}
+interface DispatchMappedToProps {
+  setToken: (token: string) => void;
+}
+
+type Props = DispatchMappedToProps;
 
 // interface LoginForm {
 //   email: string;
 //   password: string;
 // }
 
-export const LoginPage = ({  }: Props) => {
+export const LoginPage = ({ setToken }: Props) => {
   return (
     <section>
       <h1>Login</h1>
@@ -21,7 +29,14 @@ export const LoginPage = ({  }: Props) => {
             <Formik
               initialValues={{ email: '', password: '' }}
               onSubmit={values => {
-                getSession({ variables: values }).then(console.log);
+                getSession({ variables: values })
+                  .then(data => {
+                    console.log(data);
+                    if (data && data.data && data.data.login) {
+                      setToken(data.data.login.jwt);
+                    }
+                  })
+                  .catch(alert);
               }}
             >
               {({ handleSubmit, handleBlur, handleChange, values }) => {
@@ -56,4 +71,13 @@ export const LoginPage = ({  }: Props) => {
   );
 };
 
-export default LoginPage;
+const mapDispatchToProps = (
+  dispatch: Dispatch<Action>,
+): DispatchMappedToProps => ({
+  setToken: token => dispatch(SetToken(token)),
+});
+
+export default connect(
+  () => ({}),
+  mapDispatchToProps,
+)(LoginPage);
