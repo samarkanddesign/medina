@@ -7,12 +7,8 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo';
 import { Provider as ReduxProvider } from 'react-redux';
 
-import ApolloClient from 'apollo-boost';
 import { store } from './store';
-
-const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',
-});
+import { client } from './graphql/client';
 
 ReactDOM.render(
   <ApolloProvider client={client}>
