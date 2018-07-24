@@ -9,6 +9,7 @@
     "emotion": "^9.2.3",
     "formik": "^0.11.11",
     "graphql": "0.13.2",
+    "lodash": "^4.17.10",
     "ramda": "^0.25.0",
     "react": "^16.4.1",
     "react-apollo": "^2.1.4",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@types/jest": "^23.1.1",
+    "@types/lodash": "^4.14.113",
     "@types/node": "^10.3.5",
     "@types/prop-types": "^15.5.3",
     "@types/ramda": "^0.25.34",
