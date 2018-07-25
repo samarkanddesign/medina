@@ -1,13 +1,13 @@
 import * as React from 'react';
 import styled, { css } from 'react-emotion';
+import { spacing } from './style';
 
 export const baseInputStyle = css`
   display: block;
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 1rem;
-  padding: 0.5rem;
+  padding: ${spacing.cat};
   background: hsl(22, 12%, 98%);
   &:hover {
     background: hsl(22, 12%, 95%);

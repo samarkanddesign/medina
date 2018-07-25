@@ -7,6 +7,9 @@ import { Action } from '../store/reducers';
 import { SetToken } from '../store/reducers/auth';
 import { connect } from 'react-redux';
 import EnsureGuest from '../components/EnsureGuest';
+import Intro from '../layouts/Intro';
+import Vspace from 'src/components/Vspace';
+import { Button } from 'src/components/Button';
 
 interface DispatchMappedToProps {
   setToken: (token: string) => void;
@@ -17,7 +20,7 @@ type Props = DispatchMappedToProps;
 export const LoginPage = ({ setToken }: Props) => {
   return (
     <EnsureGuest>
-      <section>
+      <Intro>
         <h1>Login</h1>
 
         <LoginMutation mutation={LOGIN}>
@@ -39,24 +42,28 @@ export const LoginPage = ({ setToken }: Props) => {
                 {({ handleSubmit, handleBlur, handleChange, values }) => {
                   return (
                     <form onSubmit={handleSubmit}>
-                      <Input
-                        label="Email"
-                        name="email"
-                        value={values.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
+                      <Vspace>
+                        <Input
+                          label="Email"
+                          name="email"
+                          value={values.email}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
 
-                      <Input
-                        label="Password"
-                        name="password"
-                        value={values.password}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        type="password"
-                      />
+                        <Input
+                          label="Password"
+                          name="password"
+                          value={values.password}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          type="password"
+                        />
 
-                      <button type="submit">Login</button>
+                        <Button isFullWidth type="submit">
+                          Login
+                        </Button>
+                      </Vspace>
                     </form>
                   );
                 }}
@@ -64,7 +71,7 @@ export const LoginPage = ({ setToken }: Props) => {
             );
           }}
         </LoginMutation>
-      </section>
+      </Intro>
     </EnsureGuest>
   );
 };

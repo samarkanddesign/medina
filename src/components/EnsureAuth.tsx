@@ -14,12 +14,8 @@ interface OwnProps {
 
 type Props = StateMappedToProps & OwnProps;
 
-export const EnsureGuest = ({
-  isLoggedIn,
-  children,
-  redirect = '/products',
-}: Props) => {
-  if (isLoggedIn) {
+const EnsureAuth = ({ isLoggedIn, children, redirect = '/login' }: Props) => {
+  if (!isLoggedIn) {
     return <Redirect to={redirect} />;
   }
 
@@ -30,4 +26,4 @@ const mapStateToProps = (state: State): StateMappedToProps => ({
   isLoggedIn: !!state.auth.token,
 });
 
-export default connect(mapStateToProps)(EnsureGuest);
+export default connect(mapStateToProps)(EnsureAuth);

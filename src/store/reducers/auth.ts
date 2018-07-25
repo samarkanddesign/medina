@@ -14,7 +14,17 @@ export interface AuthState {
   token?: string;
 }
 
-export type AuthAction = SetToken;
+interface UnsetToken {
+  type: 'UnsetToken';
+}
+
+export function UnsetToken(): UnsetToken {
+  return {
+    type: 'UnsetToken',
+  };
+}
+
+export type AuthAction = SetToken | UnsetToken;
 
 export const authReducer = (
   state: AuthState = { token: undefined },
@@ -23,6 +33,9 @@ export const authReducer = (
   switch (action.type) {
     case 'SetToken': {
       return { ...state, token: action.token };
+    }
+    case 'UnsetToken': {
+      return { ...state, token: undefined };
     }
 
     default: {

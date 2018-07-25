@@ -27,3 +27,5 @@ export const pallette = {
     forever: '#99B2B7',
   },
 };
+
+export const boxShadow = '0 1px 2px 0 hsla(0, 0%, 0%, 0.1)';

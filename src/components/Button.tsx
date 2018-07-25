@@ -1,13 +1,14 @@
 import styled from 'react-emotion';
 import { Link } from 'react-router-dom';
+import { spacing } from './style';
 
 const buttonColor = '#333';
 
 export const Button = styled('button')<{ isFullWidth?: boolean }>(
   {
-    padding: '1rem 2rem',
+    padding: `${spacing.cat} 2rem`,
     backgroundColor: buttonColor,
-    border: `2px solid ${buttonColor}`,
+    border: `1px solid ${buttonColor}`,
     '&:hover': {
       backgroundColor: '#444',
       borderColor: '#444',
