@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
 import axios from 'axios';
+import { Option } from 'catling';
+import { Link } from 'react-router-dom';
 
 import { Product } from '../types/gql';
 import ProductForm from '../components/ProductForm';
@@ -10,30 +10,9 @@ import Card from '../components/Card';
 import Section from '../components/Section';
 import { Vspace } from '../components/Vspace';
 import { FileInput } from '../components/FileInput';
-import { Option } from 'catling';
-import { Link } from 'react-router-dom';
+import { SingleProductQuery, SINGLE_PRODUCT } from '../graphql/queries';
 
 interface Props extends RouteComponentProps<{ id: string }> {}
-
-const SingleProduct = gql`
-  query SingleProduct($id: String) {
-    product(id: $id) {
-      id
-      name
-      slug
-      description
-      price
-      salePrice
-      stockQty
-      images {
-        id
-        url
-      }
-    }
-  }
-`;
-
-class SingleProductQuery extends Query<{ product?: Product }, { id: string }> {}
 
 export default function Product({ match }: Props) {
   const id = match.params.id;
@@ -43,7 +22,7 @@ export default function Product({ match }: Props) {
 
       <Link to="/products">👈 All Products</Link>
 
-      <SingleProductQuery query={SingleProduct} variables={{ id }}>
+      <SingleProductQuery query={SINGLE_PRODUCT} variables={{ id }}>
         {({ data, loading, error, refetch }) => {
           if (loading) {
             return <span>loading...</span>;

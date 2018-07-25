@@ -11,3 +11,7 @@ body {
   font-family: sans-serif;
   background: hsl(22, 12%, 98%);
 }
+
+a {
+  text-decoration: none;
+}

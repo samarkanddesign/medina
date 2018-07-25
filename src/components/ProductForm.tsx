@@ -51,7 +51,6 @@ interface ProductForm {
 }
 
 export default function ProductForm({ product }: Props) {
-  console.log(product);
   return (
     <Vspace>
       <Mutation mutation={updateProduct}>

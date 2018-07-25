@@ -1,26 +1,40 @@
 import * as React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
-import './App.css';
 
-import logo from './samarkand-logo-250.svg';
+import * as logo from './samarkand-logo-250.svg';
 import Products from './pages/Products';
 import Product from './pages/Product';
 import LoginPage from './pages/LoginPage';
+import styled from 'react-emotion';
+import { pallette, spacing } from './components/style';
+
+const StyledHeader = styled('header')`
+  background: ${pallette.goodfriends.darkbrown};
+  padding: ${spacing.cat};
+  color: #fff;
+  display: flex;
+  a {
+    color: #fff;
+  }
+`;
+
+const Header = () => (
+  <StyledHeader className="App-header">
+    <img src={logo} style={{ width: '50px', height: '50px' }} />
+
+    <ul>
+      <li>
+        <Link to="products">Products</Link>
+      </li>
+    </ul>
+  </StyledHeader>
+);
 
 class App extends React.Component {
   public render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to Samarkand Medina</h1>
-
-          <ul>
-            <li>
-              <Link to="products">Products</Link>
-            </li>
-          </ul>
-        </header>
+        <Header />
         <Switch>
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/products/:id" component={Product} />
