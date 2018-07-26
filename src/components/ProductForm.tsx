@@ -2,46 +2,17 @@ import * as React from 'react';
 import { Option } from 'catling';
 import { Product } from '../types/gql';
 import Input from './Input';
-import Vspace from './Vspace';
-import TextArea from './TextArea';
 import { Formik } from 'formik';
 import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
+
+import Vspace from './Vspace';
+import TextArea from './TextArea';
 import { Button } from './Button';
+import { UPDATE_PRODUCT } from '../graphql/mutations';
 
 interface Props {
   product: Product;
 }
-
-const updateProduct = gql`
-  mutation UpdateProduct(
-    $id: ID
-    $name: String
-    $description: String
-    $price: Int
-    $salePrice: Int
-  ) {
-    updateProduct(
-      id: $id
-      name: $name
-      description: $description
-      price: $price
-      salePrice: $salePrice
-    ) {
-      product {
-        id
-        name
-        description
-        price
-        salePrice
-      }
-      errors {
-        key
-        reason
-      }
-    }
-  }
-`;
 
 interface ProductForm {
   id: string;
@@ -54,7 +25,7 @@ interface ProductForm {
 export default function ProductForm({ product }: Props) {
   return (
     <Vspace>
-      <Mutation mutation={updateProduct}>
+      <Mutation mutation={UPDATE_PRODUCT}>
         {updateProduct => (
           <Formik
             initialValues={desanitizeProductForm(product)}
@@ -142,6 +113,6 @@ function sanitizeProduct({
     salePrice: Option(salePrice)
       .filter(p => p.length > 0)
       .map(p => parseFloat(p) * 100)
-      .getOrElse(undefined),
+      .get(),
   };
 }
