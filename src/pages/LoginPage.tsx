@@ -8,8 +8,8 @@ import { SetToken } from '../store/reducers/auth';
 import { connect } from 'react-redux';
 import EnsureGuest from '../components/EnsureGuest';
 import Intro from '../layouts/Intro';
-import Vspace from 'src/components/Vspace';
-import { Button } from 'src/components/Button';
+import Vspace from '../components/Vspace';
+import { Button } from '../components/Button';
 
 interface DispatchMappedToProps {
   setToken: (token: string) => void;

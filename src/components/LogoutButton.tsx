@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button } from './Button';
+import { TextButton } from './Button';
 import { Dispatch } from 'redux';
 import { Action } from '../store/reducers';
 import { UnsetToken } from '../store/reducers/auth';
@@ -12,7 +12,7 @@ interface DispatchMappedToProps {
 type Props = DispatchMappedToProps;
 
 const LogoutButton = ({ logout }: Props) => {
-  return <Button onClick={logout}>🚶‍♂️</Button>;
+  return <TextButton onClick={logout}>🚶‍♂️</TextButton>;
 };
 
 const mapDispatchToProps = (

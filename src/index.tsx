@@ -10,6 +10,17 @@ import { Provider as ReduxProvider } from 'react-redux';
 
 import { store } from './store';
 import { client } from './graphql/client';
+import { injectGlobal } from '../node_modules/emotion';
+import { pallette } from './components/style';
+
+injectGlobal`
+  a {
+    color: ${pallette.goodfriends.darkbrown};
+    &:hover {
+      color: ${pallette.goodfriends.midbrown};
+    }
+  }
+`;
 
 ReactDOM.render(
   <ApolloProvider client={client}>

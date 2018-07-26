@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, RouteProps } from 'react-router-dom';
 
 import Products from './pages/Products';
 import Product from './pages/Product';
@@ -13,23 +13,24 @@ class App extends React.Component {
     return (
       <Switch>
         <Route exact path="/login" component={LoginPage} />
-        <Route component={AppRoutes} />
+        <DashboardRoute exact path="/products/:id(\d+)" component={Product} />
+        <DashboardRoute exact path="/products" component={Products} />
+        <Route render={() => 'Not Found 😮'} />
       </Switch>
     );
   }
 }
 
-const AppRoutes = () => {
+const DashboardRoute = ({ component: Component, ...rest }: RouteProps) => {
   return (
-    <Switch>
-      <EnsureAuth>
-        <Main>
-          <Route exact path="/products/:id" component={Product} />
-          <Route exact path="/products" component={Products} />
-        </Main>
-      </EnsureAuth>
-      <Route render={() => 'Not Found 😮'} />
-    </Switch>
+    <Route
+      {...rest}
+      render={matchProps => (
+        <EnsureAuth>
+          <Main>{Component && <Component {...matchProps} />}</Main>
+        </EnsureAuth>
+      )}
+    />
   );
 };
 

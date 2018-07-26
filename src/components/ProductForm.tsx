@@ -7,6 +7,7 @@ import TextArea from './TextArea';
 import { Formik } from 'formik';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Button } from './Button';
 
 interface Props {
   product: Product;
@@ -98,9 +99,9 @@ export default function ProductForm({ product }: Props) {
                     onChange={props.handleChange}
                     onBlur={props.handleBlur}
                   />
-                  <button type="submit" disabled={props.isSubmitting}>
+                  <Button type="submit" disabled={props.isSubmitting}>
                     Submit
-                  </button>
+                  </Button>
                 </Vspace>
               </form>
             )}

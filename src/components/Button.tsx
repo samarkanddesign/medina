@@ -1,17 +1,15 @@
 import styled from 'react-emotion';
 import { Link } from 'react-router-dom';
-import { spacing } from './style';
-
-const buttonColor = '#333';
+import { spacing, pallette } from './style';
 
 export const Button = styled('button')<{ isFullWidth?: boolean }>(
   {
     padding: `${spacing.cat} 2rem`,
-    backgroundColor: buttonColor,
-    border: `1px solid ${buttonColor}`,
+    backgroundColor: pallette.goodfriends.darkbrown,
+    border: `1px solid ${pallette.goodfriends.darkbrown}`,
     '&:hover': {
-      backgroundColor: '#444',
-      borderColor: '#444',
+      backgroundColor: pallette.goodfriends.midbrown,
+      borderColor: pallette.goodfriends.midbrown,
     },
     borderRadius: '0.5rem',
     cursor: 'pointer',
